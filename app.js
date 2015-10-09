@@ -11,7 +11,8 @@ var assert = require('assert');
 var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var ipUtil = require('ip');
-var get_ip = require('ipware')().get_ip;
+//var get_ip = require('ipware')().get_ip;
+var requestIp = require('request-ip');
 
 var IP = require('./models/ip');
 
@@ -53,8 +54,8 @@ app.get('/', function (req, res, next) {
 app.get('/api/geoip', function (req, res, next) {
     //console.log(req.query.ip.split(".").slice(0,3).join("."));
     //var ip = "\/"+req.query.ip.split(".").slice(0,3).join(".")+".*\/";
-    var ip = req.query.ip || get_ip(req).clientIp.replace('ffff','').replace(':::','')
-    console.log(ip)
+    var ip = req.query.ip || requestIp.getClientIp(req).replace('ffff','').replace(':::','');//get_ip(req).clientIp.replace('ffff','').replace(':::','')
+    console.log(ip, req.ip)
     var ipRange = ip.split(".").slice(0,2).join(".")+".*";
 
     IP.find({startRange: new RegExp(ipRange, "i")}).exec(function (err, ips) {
@@ -73,7 +74,7 @@ app.get('/api/geoip', function (req, res, next) {
                     console.log("matches")
             }*/
         }
-        if(!geoIp)geoIp = 'Nothing found on '+ip;
+        if(!geoIp)geoIp = req.ip+' || Nothing found on '+ip;
         res.json(geoIp);
     });
 });

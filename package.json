@@ -10,8 +10,25 @@
     "cookie-parser": "~1.3.4",
     "debug": "~2.1.1",
     "ejs": "~2.3.1",
+    "mongoose": "4.1.10",
     "express": "~4.12.2",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0"
-  }
+  },
+  "description": "geolocation based on ip",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mathias-nordicfactory/geoip.git"
+  },
+  "keywords": [
+    "geoip"
+  ],
+  "author": "Mathias Wilén",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mathias-nordicfactory/geoip/issues"
+  },
+  "homepage": "https://github.com/mathias-nordicfactory/geoip"
 }

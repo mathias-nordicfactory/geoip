@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var csv = require('fast-csv')
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
 var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var ipUtil = require('ip');
@@ -13,7 +15,12 @@ var ipUtil = require('ip');
 var IP = require('./models/ip');
 
 var dbConfig = require('./db');
-mongoose.connect(dbConfig.locUrl);
+mongoose.connect(dbConfig.prodUrl);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+    console.log("Database connection established.")
+});
 
 
 var app = express();
@@ -68,9 +75,9 @@ app.get('/api/geoip', function (req, res, next) {
         res.json(geoIp);
     });
 });
-
+/*
 //network;geoname_id;registered_country_geoname_id;represented_country_geoname_id;is_anonymous_proxy;is_satellite_provider;postal_code;latitude;longitude
-/*var stream = fs.createReadStream("dbip-city.csv");
+var stream = fs.createReadStream("dbip-city.csv");
 
 var csvStream = csv()
     .on("data", function (data) {

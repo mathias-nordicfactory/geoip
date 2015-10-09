@@ -11,6 +11,7 @@ var assert = require('assert');
 var mongoose = require('mongoose');
 var routes = require('./routes/index');
 var ipUtil = require('ip');
+var get_ip = require('ipware')().get_ip;
 
 var IP = require('./models/ip');
 
@@ -53,8 +54,10 @@ app.get('/api/geoip', function (req, res, next) {
     //console.log(req.query.ip.split(".").slice(0,3).join("."));
     //var ip = "\/"+req.query.ip.split(".").slice(0,3).join(".")+".*\/";
     var ip = req.query.ip;
-    var ipRange = req.query.ip.split(".").slice(0,2).join(".")+".*";
-
+    if(ip)
+        var ipRange = req.query.ip.split(".").slice(0,2).join(".")+".*";
+    else
+        var ip = get_ip(req);
     console.log(ip)
     IP.find({startRange: new RegExp(ipRange, "i")}).exec(function (err, ips) {
         var geoIp;

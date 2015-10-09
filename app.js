@@ -73,6 +73,7 @@ app.get('/api/geoip', function (req, res, next) {
                     console.log("matches")
             }*/
         }
+        if(!geoIp)geoIp = 'Nothing found on '+ip;
         res.json(geoIp);
     });
 });

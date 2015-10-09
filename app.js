@@ -82,7 +82,7 @@ app.get('/api/geoip', function (req, res, next) {
             }*/
         }
         if(!geoIp)geoIp = '|| Nothing found on '+ip;
-        geoIp.city = geoIp.city.replace(' County','')
+        try{if(geoIp.city.indexOf('county') != -1)geoIp.city = geoIp.city.replace(' County','')}catch(e){}
         res.json(geoIp);
     });
 });

@@ -54,7 +54,7 @@ app.get('/', function (req, res, next) {
 app.get('/api/geoip', function (req, res, next) {
     //console.log(req.query.ip.split(".").slice(0,3).join("."));
     //var ip = "\/"+req.query.ip.split(".").slice(0,3).join(".")+".*\/";
-    var ip = req.query.ip || requestIp.getClientIp(req).replace('ffff','').replace(':::','');//get_ip(req).clientIp.replace('ffff','').replace(':::','')
+    var ip = req.query.ip || requestIp.getClientIp(req).replace('ffff','').replace(':::','');
     console.log(ip, req.ip)
     var ipRange = ip.split(".").slice(0,2).join(".")+".*";
 
@@ -74,7 +74,8 @@ app.get('/api/geoip', function (req, res, next) {
                     console.log("matches")
             }*/
         }
-        if(!geoIp)geoIp = req.ip+' || Nothing found on '+ip;
+        if(!geoIp)geoIp = '|| Nothing found on '+ip;
+        geoIp.city = geoIp.city.replace(' County','')
         res.json(geoIp);
     });
 });

@@ -53,11 +53,9 @@ app.get('/', function (req, res, next) {
 app.get('/api/geoip', function (req, res, next) {
     //console.log(req.query.ip.split(".").slice(0,3).join("."));
     //var ip = "\/"+req.query.ip.split(".").slice(0,3).join(".")+".*\/";
-    var ip = req.query.ip;
-    if(ip)
-        var ipRange = req.query.ip.split(".").slice(0,2).join(".")+".*";
-    else
-        var ip = get_ip(req);
+    var ip = req.query.ip || get_ip(req);
+    var ipRange = req.query.ip.split(".").slice(0,2).join(".")+".*";
+
     console.log(ip)
     IP.find({startRange: new RegExp(ipRange, "i")}).exec(function (err, ips) {
         var geoIp;
